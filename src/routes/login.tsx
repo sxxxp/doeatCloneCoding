@@ -19,11 +19,11 @@ const LoginRouter = ({ userObj }: RouterProps) => {
     if (name === "google") {
       provider = new GoogleAuthProvider();
       await signInWithPopup(authService, provider);
-      navigate("/");
+      navigate(-1);
     }
   };
   const onArrowClick = () => {
-    navigate("/");
+    navigate(-1);
   };
   return (
     <div

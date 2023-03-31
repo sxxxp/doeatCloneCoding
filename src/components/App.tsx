@@ -5,7 +5,14 @@ import AppRouter from "./Router";
 
 function App() {
   const [init, setInit] = useState(false);
-  const [userObj, setUserObj] = useState<Object | undefined>(undefined);
+  const [userObj, setUserObj] = useState<
+    | {
+        displayName: string | null;
+        uid: string;
+        photoURL: string | null;
+      }
+    | undefined
+  >(undefined);
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       if (user !== null) {

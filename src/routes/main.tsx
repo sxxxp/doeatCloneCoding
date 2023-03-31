@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
@@ -9,28 +9,37 @@ import {
 import Swal from "sweetalert2";
 import "../App.css";
 import { useNavigate } from "react-router-dom";
-import { authService } from "../FirebaseInst";
+import { authService, dbService } from "../FirebaseInst";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { collection, onSnapshot } from "firebase/firestore";
 interface MainProps {
-  userObj: Object | undefined;
+  userObj:
+    | {
+        displayName: string | null;
+        uid: string;
+        photoURL: string | null;
+      }
+    | undefined;
 }
 
 const MainRouter = ({ userObj }: MainProps) => {
   const navigate = useNavigate();
+  const [address, setAddress] = useState("");
   const settings = {
     className: "center",
     dots: true,
     infinite: false,
     speed: 500,
-
     slidesToShow: 7,
+    arrows: false,
     slidesToScroll: 5,
     style: { textAlign: "center" },
   };
   const setting = {
     dots: false,
+    arrows: false,
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -39,7 +48,7 @@ const MainRouter = ({ userObj }: MainProps) => {
     autoplaySpeed: 3000,
     cssEase: "linear",
   };
-  const onAdressClick = () => {
+  const isLogin = (userObj: Object | undefined) => {
     if (typeof userObj === "undefined") {
       Swal.fire({
         title: "로그인이 필요한 서비스입니다.",
@@ -48,11 +57,14 @@ const MainRouter = ({ userObj }: MainProps) => {
         if (result.isConfirmed) {
           navigate("/login");
         }
-        console.log(result);
+        return false;
       });
     } else {
+      return true;
     }
-    return <></>;
+  };
+  const onAddressClick = () => {
+    if (isLogin(userObj)) navigate("/address");
   };
   const onSearchClick = () => {
     navigate("/search");
@@ -68,6 +80,9 @@ const MainRouter = ({ userObj }: MainProps) => {
   const onItemClick = (event: React.MouseEvent<HTMLHeadingElement>) => {
     navigate(`/order/${event.currentTarget.innerText}`);
   };
+  const onShopClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    isLogin(userObj);
+  };
   const Item = (
     props: React.DetailedHTMLProps<
       React.HtmlHTMLAttributes<HTMLHeadingElement>,
@@ -80,6 +95,13 @@ const MainRouter = ({ userObj }: MainProps) => {
       </div>
     );
   };
+  useEffect(() => {
+    if (userObj) {
+      onSnapshot(collection(dbService, "address"), (snapshot) => {
+        snapshot.docs.map((doc) => setAddress(doc.data().address));
+      });
+    }
+  }, [userObj]);
   return (
     <>
       <header
@@ -90,8 +112,9 @@ const MainRouter = ({ userObj }: MainProps) => {
           backgroundColor: "#e9ecef",
         }}
       >
-        <h4 onClick={onAdressClick} style={{ margin: 0, padding: "2% 0%" }}>
-          대표 주소 설정 <FontAwesomeIcon icon={faChevronDown} />
+        <h4 onClick={onAddressClick} style={{ margin: 0, padding: "2% 0%" }}>
+          {address ? address : "대표 주소 설정"}{" "}
+          <FontAwesomeIcon icon={faChevronDown} />
         </h4>
         <div style={{ display: "inline-block", textAlign: "center" }}>
           {userObj && (
@@ -133,16 +156,49 @@ const MainRouter = ({ userObj }: MainProps) => {
       <div style={{ margin: "30px" }}></div>
       <Slider {...setting}>
         <div>
-          <h1>이미지1</h1>
+          <h1>배너 이미지1</h1>
         </div>
         <div>
-          <h1>이미지2</h1>
+          <h1>배너 이미지2</h1>
         </div>
       </Slider>
+      <div style={{ marginLeft: "10px" }}>
+        <span style={{ fontWeight: "bold" }}>우리동네 BEST 맛집</span>
+        <p style={{ fontWeight: "bold", fontSize: "8px", color: "gray" }}>
+          이웃들이 좋아하는 우리 동네 맛집!
+        </p>
+      </div>
+      <div
+        style={{
+          justifyContent: "center",
+          marginBottom: "100px",
+        }}
+      >
+        <div style={{ width: "400px", margin: "0 auto" }} onClick={onShopClick}>
+          <img
+            src="cyka.jpg"
+            alt="이미지1"
+            style={{ width: "400px", height: "250px" }}
+          />
+          <h3 style={{ margin: 0 }}>홍차 맛집 러시아점 본사</h3>
+          <h4 style={{ color: "gray", margin: 0 }}>★-4.4 (711) · 무료배달</h4>
+          <h5
+            style={{
+              backgroundColor: "#e9ecef",
+              display: "inline",
+              color: "gray",
+            }}
+          >
+            배달 30~40시간
+          </h5>
+        </div>
+      </div>
+
       <footer
         style={{
           position: "fixed",
           width: "100%",
+          backgroundColor: "white",
           bottom: 0,
         }}
       >
