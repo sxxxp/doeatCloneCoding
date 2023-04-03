@@ -12,7 +12,6 @@ const LoginRouter = ({ userObj }: userObj) => {
     const {
       currentTarget: { name },
     } = event;
-    console.log(event.currentTarget.name);
     let provider;
     if (name === "google") {
       provider = new GoogleAuthProvider();

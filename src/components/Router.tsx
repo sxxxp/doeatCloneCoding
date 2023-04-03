@@ -5,6 +5,7 @@ import AddressDetailRouter from "../routes/addressDetail";
 import LoginRouter from "../routes/login";
 import MainRouter from "../routes/main";
 import ProfileRouter from "../routes/profile";
+import ProfileDetailRouter from "../routes/profileDetail";
 import SearchRouter from "../routes/search";
 import userObj from "./userObj";
 
@@ -24,6 +25,10 @@ const AppRouter = ({ userObj }: userObj) => {
           <Route
             path="/profile"
             element={<ProfileRouter userObj={userObj} />}
+          />
+          <Route
+            path="/profile/detail"
+            element={<ProfileDetailRouter userObj={userObj} />}
           />
           <Route path="/*" element={<>error 404</>} />
         </Routes>

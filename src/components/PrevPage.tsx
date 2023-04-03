@@ -10,7 +10,12 @@ const PrevPage = ({ color }: { color: string }) => {
   };
   return (
     <FontAwesomeIcon
-      style={{ float: "left", margin: "1% 0 0 1%", color: color }}
+      style={{
+        float: "left",
+        margin: "1% 0 0 1%",
+        color: color,
+        position: "absolute",
+      }}
       onClick={onArrowClick}
       icon={faArrowLeft}
       size="2x"

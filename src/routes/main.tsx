@@ -43,6 +43,7 @@ const MainRouter = ({ userObj }: userObj) => {
   return (
     <>
       <MainHeader userObj={userObj}></MainHeader>
+      <div style={{ paddingTop: "75px" }}></div>
       <Slider {...settings}>
         <Item>한식</Item>
         <Item>일식·회</Item>

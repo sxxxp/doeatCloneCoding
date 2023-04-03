@@ -4,12 +4,10 @@ import {
   faChevronDown,
   faSearch,
   faBell,
-  faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { authService, dbService } from "../FirebaseInst";
-import Swal from "sweetalert2";
-import {  doc, onSnapshot } from "firebase/firestore";
+import { dbService } from "../FirebaseInst";
+import { doc, onSnapshot } from "firebase/firestore";
 import "../App.scss";
 import userObj from "./userObj";
 import { IsLogin } from "./Function";
@@ -21,15 +19,6 @@ const MainHeader = ({ userObj }: userObj) => {
   };
   const onSearchClick = () => {
     navigate("/search");
-  };
-  const onLogoutClick = () => {
-    authService.signOut();
-    setAddress("");
-    Swal.fire({
-      title: "로그아웃 되었습니다.",
-      showConfirmButton: false,
-      timer: 1500,
-    });
   };
   useEffect(() => {
     if (userObj) {
@@ -47,15 +36,6 @@ const MainHeader = ({ userObj }: userObj) => {
         <FontAwesomeIcon icon={faChevronDown} />
       </h4>
       <div style={{ display: "inline-block", textAlign: "center" }}>
-        {userObj && (
-          <div style={{ display: "inline" }} onClick={onLogoutClick}>
-            <FontAwesomeIcon
-              className="header-icon"
-              icon={faRightFromBracket}
-              size="xl"
-            />
-          </div>
-        )}
         <div style={{ display: "inline" }} onClick={onSearchClick}>
           <FontAwesomeIcon className="header-icon" icon={faSearch} size="xl" />
         </div>

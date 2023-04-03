@@ -84,7 +84,7 @@ const AddressDetailRouter = () => {
           </div>
         </div>
       </div>
-      <div className="address-detail-bar"></div>
+      <div className="gray-bar"></div>
       <form onSubmit={onSubmit}>
         <div style={{ margin: "30px 0px 30px 20px" }}>
           <div
