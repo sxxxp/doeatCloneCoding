@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faX } from "@fortawesome/free-solid-svg-icons";
-import { setDoc, doc, collection } from "firebase/firestore";
+import { setDoc, doc, collection, deleteDoc } from "firebase/firestore";
 import { dbService } from "../FirebaseInst";
 import Swal from "sweetalert2";
 import PrevPage from "../components/PrevPage";
@@ -12,12 +12,16 @@ const AddressDetailRouter = () => {
   const [addressDetail, setAddressDetail] = useState("");
   const [name, setName] = useState("");
   const [isDefault, setIsDefault] = useState(true);
+  const [isFirst, setIsFirst] = useState(true);
   const id = location.state.id;
   const userObj = location.state.userObj;
-  if (location.state.addressDetail)
-    setAddressDetail(location.state.addressdetail);
-  if (location.state.isDefault) setIsDefault(location.state.isDefault);
-  if (location.state.name) setName(location.state.name);
+  useEffect(() => {
+    if (location.state.detail) setAddressDetail(location.state.detail);
+    if (typeof location.state.isDefault === "boolean")
+      setIsDefault(location.state.isDefault);
+    if (location.state.name) setName(location.state.name);
+    if (typeof location.state.isFirst === "boolean") setIsFirst(false);
+  }, [location.state]);
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (addressDetail && name) {
@@ -29,6 +33,13 @@ const AddressDetailRouter = () => {
       const docRef = doc(dbService, "address", userObj.uid);
       const colRef = collection(docRef, "addresses");
       await setDoc(doc(colRef, name), docs);
+      console.log(isFirst);
+      if (isFirst === false) {
+        console.log(name, location.state.name);
+        if (name !== location.state.name) {
+          await deleteDoc(doc(colRef, location.state.name));
+        }
+      }
       if (isDefault) {
         setDoc(docRef, {
           name: name,
@@ -154,26 +165,12 @@ const AddressDetailRouter = () => {
           )}
         </div>
         <div
-          style={{
-            width: "32px",
-            height: "32px",
-            float: "left",
-            border: "3px solid orange",
-            backgroundColor: "orange",
-            borderRadius: "4px",
-            textAlign: "center",
-            fontSize: "20px",
-            color: "white",
-            marginLeft: "20px",
-          }}
+          className={
+            isDefault
+              ? "address-detail-default-active"
+              : "address-detail-default"
+          }
           onClick={(event) => {
-            if (!isDefault) {
-              event.currentTarget.style.border = "3px solid orange";
-              event.currentTarget.style.backgroundColor = "orange";
-            } else {
-              event.currentTarget.style.border = "3px solid black";
-              event.currentTarget.style.backgroundColor = "transparent";
-            }
             setIsDefault((prev) => !prev);
           }}
         >

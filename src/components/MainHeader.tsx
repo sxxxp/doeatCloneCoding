@@ -9,7 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { authService, dbService } from "../FirebaseInst";
 import Swal from "sweetalert2";
-import { collection, onSnapshot } from "firebase/firestore";
+import {  doc, onSnapshot } from "firebase/firestore";
 import "../App.scss";
 import userObj from "./userObj";
 import { IsLogin } from "./Function";
@@ -33,8 +33,10 @@ const MainHeader = ({ userObj }: userObj) => {
   };
   useEffect(() => {
     if (userObj) {
-      onSnapshot(collection(dbService, "address"), (snapshot) => {
-        snapshot.docs.map((doc) => setAddress(doc.data().address));
+      onSnapshot(doc(dbService, "address", userObj.uid), (doc) => {
+        if (doc.data()!.address) setAddress(doc.data()!.address);
+        // if (snapshot)
+        //   snapshot.docs.map((doc) => setAddress(doc.data().address));
       });
     }
   }, [userObj]);

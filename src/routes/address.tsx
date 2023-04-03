@@ -5,10 +5,12 @@ import {
   faSearch,
   faCheck,
   faTrashCan,
+  faPen,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   onSnapshot,
@@ -130,7 +132,9 @@ const AddressRouter = ({ userObj }: MainProps) => {
                 return (
                   <div style={{ display: "flex" }}>
                     <div
-                      onClick={onMyAddressClick}
+                      onClick={(e) => {
+                        if (!selected) onMyAddressClick(e);
+                      }}
                       className="address-info-wrapper"
                       key={name}
                       id={name}
@@ -149,8 +153,65 @@ const AddressRouter = ({ userObj }: MainProps) => {
                         {detail}
                       </p>
                     </div>
-                    <div style={{}}>
-                      <FontAwesomeIcon icon={faTrashCan} />
+                    <div>
+                      <div>
+                        <FontAwesomeIcon
+                          icon={faPen}
+                          size="2x"
+                          style={{
+                            marginTop: "50px",
+                            position: "absolute",
+                            right: "180px",
+                          }}
+                          onClick={(e) => {
+                            navigate("/address/detail", {
+                              state: {
+                                id: address,
+                                userObj: userObj,
+                                detail: detail,
+                                name: name,
+                                isDefault: selected,
+                                isFirst: false,
+                              },
+                            });
+                          }}
+                        />
+                        <FontAwesomeIcon
+                          icon={faTrashCan}
+                          size="2x"
+                          style={{
+                            marginTop: "50px",
+                            position: "absolute",
+                            right: "90px",
+                          }}
+                          onClick={async (e) => {
+                            if (selected) {
+                              Swal.fire({
+                                title: "기본주소는 삭제할 수 없습니다.",
+                                icon: "error",
+                                timer: 2000,
+                                showConfirmButton: false,
+                              });
+                            } else {
+                              await deleteDoc(
+                                doc(
+                                  dbService,
+                                  "address",
+                                  userObj!.uid,
+                                  "addresses",
+                                  name
+                                )
+                              );
+                              Swal.fire({
+                                title: "삭제되었습니다!",
+                                icon: "success",
+                                timer: 2000,
+                                showConfirmButton: false,
+                              });
+                            }
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                 );

@@ -1,17 +1,18 @@
 import React from "react";
 import "../App.scss";
 import { useNavigate } from "react-router-dom";
-import Slider from "react-slick";
+import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import MainHeader from "../components/MainHeader";
 import MainFooter from "../components/MainFooter";
 import userObj from "../components/userObj";
 import MainShop from "../components/MainShop";
+import BannerSlider from "../components/BannerSlider";
 
 const MainRouter = ({ userObj }: userObj) => {
   const navigate = useNavigate();
-  const settings = {
+  const settings: Settings = {
     className: "center",
     centerMode: false,
     dots: true,
@@ -20,18 +21,6 @@ const MainRouter = ({ userObj }: userObj) => {
     slidesToShow: 7,
     arrows: false,
     slidesToScroll: 5,
-    style: { textAlign: "center" },
-  };
-  const setting = {
-    dots: false,
-    arrows: false,
-    infinite: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    speed: 500,
-    autoplaySpeed: 3000,
-    cssEase: "linear",
   };
 
   const onItemClick = (event: React.MouseEvent<HTMLHeadingElement>) => {
@@ -45,7 +34,7 @@ const MainRouter = ({ userObj }: userObj) => {
     >
   ) => {
     return (
-      <div>
+      <div style={{ textAlign: "center" }}>
         <h3 onClick={onItemClick}>{props.children}</h3>
       </div>
     );
@@ -66,14 +55,8 @@ const MainRouter = ({ userObj }: userObj) => {
         <Item>야식·안주</Item>
       </Slider>
       <div style={{ margin: "30px" }}></div>
-      <Slider {...setting}>
-        <div>
-          <h1>배너 이미지1</h1>
-        </div>
-        <div>
-          <h1>배너 이미지2</h1>
-        </div>
-      </Slider>
+      <BannerSlider items={["banner1.png", "banner2.png"]} />
+      <div style={{ margin: "50px" }}></div>
 
       <MainShop userObj={userObj}></MainShop>
       <MainFooter userObj={userObj}></MainFooter>
