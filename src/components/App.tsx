@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { authService } from "../FirebaseInst";
-import "../App.css";
+import "../App.scss";
 import AppRouter from "./Router";
 
 function App() {

@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowLeft,
-  faLocationDot,
-  faX,
-} from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faX } from "@fortawesome/free-solid-svg-icons";
 import { setDoc, doc, collection } from "firebase/firestore";
 import { dbService } from "../FirebaseInst";
 import Swal from "sweetalert2";
+import PrevPage from "../components/PrevPage";
 const AddressDetailRouter = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -17,15 +14,17 @@ const AddressDetailRouter = () => {
   const [isDefault, setIsDefault] = useState(true);
   const id = location.state.id;
   const userObj = location.state.userObj;
-  const onArrowClick = () => {
-    navigate(-1);
-  };
+  if (location.state.addressDetail)
+    setAddressDetail(location.state.addressdetail);
+  if (location.state.isDefault) setIsDefault(location.state.isDefault);
+  if (location.state.name) setName(location.state.name);
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (addressDetail && name) {
       const docs = {
         name: name,
-        address: id + " " + addressDetail,
+        address: id,
+        detail: addressDetail,
       };
       const docRef = doc(dbService, "address", userObj.uid);
       const colRef = collection(docRef, "addresses");
@@ -33,7 +32,8 @@ const AddressDetailRouter = () => {
       if (isDefault) {
         setDoc(docRef, {
           name: name,
-          address: id + " " + addressDetail,
+          address: id,
+          detail: addressDetail,
         });
       }
       Swal.fire({
@@ -56,32 +56,24 @@ const AddressDetailRouter = () => {
   };
   return (
     <div>
-      <FontAwesomeIcon
-        style={{ float: "left", margin: "1% 0 0 1%" }}
-        onClick={onArrowClick}
-        icon={faArrowLeft}
-        size="2x"
-      />
+      <PrevPage color="black"></PrevPage>
       <h1 style={{ textAlign: "center" }}>상세 정보 입력</h1>
       <div style={{ marginTop: "5%" }}>
         <div style={{ display: "flex", marginLeft: "20px" }}>
           <FontAwesomeIcon
             icon={faLocationDot}
             size="3x"
-            style={{
-              margin: "25px 20px 0px 0px",
-              display: "block",
-            }}
+            className="address-location-icon"
           />
           <div>
             <h3 style={{ marginBottom: "0px" }}>{id}</h3>
             <p style={{ color: "gray" }}>
-              <span style={{ backgroundColor: "#e9ecef" }}>도로명</span> {id}{" "}
-              도로명주소
+              <span className="gray-background">도로명</span> {id} 도로명주소
             </p>
           </div>
         </div>
       </div>
+      <div className="address-detail-bar"></div>
       <form onSubmit={onSubmit}>
         <div style={{ margin: "30px 0px 30px 20px" }}>
           <div
@@ -96,21 +88,12 @@ const AddressDetailRouter = () => {
             placeholder="상세주소 (아파트/동/호)"
             value={addressDetail}
             autoComplete="false"
-            style={{
-              display: "block",
-              width: "99%",
-              height: "30px",
-              border: "0px",
-              fontWeight: "bold",
-              outline: "none",
-              fontSize: "20px",
-            }}
+            className="address-detail-input"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const div = document.getElementById("addressDetail");
               if (e.currentTarget.value) {
-                const div = document.getElementById("addressDetail");
                 div!.style.opacity = "1";
               } else {
-                const div = document.getElementById("addressDetail");
                 div!.style.opacity = "0";
               }
               setAddressDetail(e.currentTarget.value);
@@ -143,21 +126,12 @@ const AddressDetailRouter = () => {
             placeholder="주소이름 (예: 우리집)"
             maxLength={30}
             autoComplete="flase"
-            style={{
-              display: "block",
-              width: "99%",
-              height: "30px",
-              border: "0px",
-              fontWeight: "bold",
-              outline: "none",
-              fontSize: "20px",
-            }}
+            className="address-detail-input"
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              const div = document.getElementById("name");
               if (e.currentTarget.value) {
-                const div = document.getElementById("name");
                 div!.style.opacity = "1";
               } else {
-                const div = document.getElementById("name");
                 div!.style.opacity = "0";
               }
               setName(e.currentTarget.value);

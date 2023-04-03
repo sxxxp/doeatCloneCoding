@@ -1,0 +1,118 @@
+body {
+  /* height: 200vh; */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #e9ecef;
+}
+
+.header-address {
+  margin: 0;
+  padding: 2% 0%;
+  margin-left: 1%;
+}
+
+.header-icon {
+  margin: 16px 30px 16px 0;
+}
+
+@mixin footer-nav {
+  flex-grow: 1;
+  text-align: center;
+  text-decoration: none;
+}
+.footer-nav {
+  @include footer-nav;
+  color: gray;
+}
+.footer-nav-active {
+  @include footer-nav;
+  color: black;
+}
+.footer-wrapper {
+  position: fixed;
+  width: 100%;
+  background-color: white;
+  bottom: 0;
+}
+.shop-wrapper {
+  justify-content: center;
+  margin-bottom: 100px;
+}
+.shop-article-wrapper {
+  width: 400px;
+  margin: 0 auto;
+}
+.shop-image {
+  width: 400px;
+  height: 250px;
+}
+
+.gray-background {
+  background-color: #e9ecef;
+  display: inline;
+  font-weight: bold;
+  color: gray;
+}
+
+@mixin input {
+  border: 0;
+  font-weight: bold;
+  outline: none;
+  font-size: 20px;
+}
+
+.address-search {
+  @include input;
+  margin-top: 50px;
+  width: 90%;
+  padding: 20px 10px;
+  background-color: #e9ecef;
+}
+
+@mixin icon($top) {
+  position: absolute;
+  top: $top;
+}
+
+.address-icon-left {
+  @include icon(160px);
+  left: 90px;
+}
+
+.address-icon-right {
+  @include icon(160px);
+  right: 90px;
+}
+.address-wrapper {
+  margin-top: 30px;
+  margin-left: 60px;
+  text-align: left;
+}
+
+.address-info-wrapper {
+  margin-left: 15px;
+}
+
+.address-detail-input {
+  @include input;
+  display: block;
+  width: 99%;
+  height: 30px;
+}
+
+.address-location-icon {
+  margin: 25px 20px 0px 0px;
+  display: block;
+}
+.address-detail-bar {
+  width: 100%;
+  padding: 10px 0px;
+  background-color: #e9ecef;
+}

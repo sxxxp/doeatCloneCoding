@@ -3,12 +3,10 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { authService } from "../FirebaseInst";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-interface RouterProps {
-  userObj: Object | undefined;
-}
-const LoginRouter = ({ userObj }: RouterProps) => {
+import userObj from "../components/userObj";
+import PrevPage from "../components/PrevPage";
+const LoginRouter = ({ userObj }: userObj) => {
   const navigate = useNavigate();
   const onSocialClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
@@ -22,9 +20,7 @@ const LoginRouter = ({ userObj }: RouterProps) => {
       navigate(-1);
     }
   };
-  const onArrowClick = () => {
-    navigate(-1);
-  };
+
   return (
     <div
       style={{
@@ -33,15 +29,10 @@ const LoginRouter = ({ userObj }: RouterProps) => {
         color: "white",
         width: "100%",
         position: "absolute",
-        height: window.screen.height,
+        height: "100vh",
       }}
     >
-      <FontAwesomeIcon
-        style={{ float: "left", margin: "1% 0 0 1%" }}
-        onClick={onArrowClick}
-        icon={faArrowLeft}
-        size="3x"
-      />
+      <PrevPage color="white"></PrevPage>
       <h2 style={{ margin: "10% 0 4% 0" }}>
         <span style={{ fontWeight: "normal" }}>배달비 없는 배달앱, </span>두잇
       </h2>
