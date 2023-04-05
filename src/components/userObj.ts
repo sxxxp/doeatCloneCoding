@@ -7,5 +7,9 @@ interface userObj {
       }
     | undefined;
 }
+interface refreshUser extends userObj {
+  refreshUser: () => void;
+}
 
 export default userObj;
+export type { refreshUser };

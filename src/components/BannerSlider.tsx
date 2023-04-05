@@ -18,8 +18,8 @@ const BannerSlider = ({ items }: { items: string[] }) => {
   return (
     <Slider {...setting}>
       {items.map((item) => (
-        <div>
-          <img src={item} alt="" style={{ width: "100%", height: "200px" }} />
+        <div key={item}>
+          <img src={item} alt="" style={{ width: "100%", height: "150px" }} />
         </div>
       ))}
     </Slider>

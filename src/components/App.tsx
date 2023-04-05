@@ -31,8 +31,26 @@ function App() {
     });
     setInit(true);
   }, []);
+  const refreshUser = () => {
+    const user = authService.currentUser;
+    if (user) {
+      let user_info = {
+        displayName: user.displayName,
+        uid: user.uid,
+        photoURL: user.photoURL,
+      };
+      setUserObj(user_info);
+    }
+  };
+  console.log(init);
   return (
-    <>{init ? <AppRouter userObj={userObj} /> : <h1>페이지 로딩중...</h1>}</>
+    <>
+      {init ? (
+        <AppRouter userObj={userObj} refreshUser={refreshUser} />
+      ) : (
+        <h1>페이지 로딩중...</h1>
+      )}
+    </>
   );
 }
 

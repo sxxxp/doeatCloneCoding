@@ -9,12 +9,11 @@ import MainFooter from "../components/MainFooter";
 import userObj from "../components/userObj";
 import MainShop from "../components/MainShop";
 import BannerSlider from "../components/BannerSlider";
+import SizeBox from "../components/marginBox";
 
 const MainRouter = ({ userObj }: userObj) => {
   const navigate = useNavigate();
   const settings: Settings = {
-    className: "center",
-    centerMode: false,
     dots: true,
     infinite: false,
     speed: 500,
@@ -34,7 +33,7 @@ const MainRouter = ({ userObj }: userObj) => {
     >
   ) => {
     return (
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: "center", fontSize: "1rem" }}>
         <h3 onClick={onItemClick}>{props.children}</h3>
       </div>
     );
@@ -55,9 +54,9 @@ const MainRouter = ({ userObj }: userObj) => {
         <Item>카페·디저트</Item>
         <Item>야식·안주</Item>
       </Slider>
-      <div style={{ margin: "30px" }}></div>
+      <SizeBox size={30} />
       <BannerSlider items={["banner1.png", "banner2.png"]} />
-      <div style={{ margin: "50px" }}></div>
+      <SizeBox size={50} />
 
       <MainShop userObj={userObj}></MainShop>
       <MainFooter userObj={userObj}></MainFooter>

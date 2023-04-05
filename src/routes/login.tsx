@@ -21,32 +21,14 @@ const LoginRouter = ({ userObj }: userObj) => {
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: "#F54920",
-        textAlign: "center",
-        color: "white",
-        width: "100%",
-        position: "absolute",
-        height: "100vh",
-      }}
-    >
+    <div className="login-wrapper">
       <PrevPage color="white"></PrevPage>
-      <h2 style={{ margin: "10% 0 4% 0" }}>
-        <span style={{ fontWeight: "normal" }}>배달비 없는 배달앱, </span>두잇
+      <h2 className="login-head-wrapper">
+        <span className="font-normal">배달비 없는 배달앱, </span>두잇
       </h2>
       <img src="doeat.png" alt="" />
       <p>지금 두잇 시작하고 배달비 무료로 드세요!</p>
-      <button
-        onClick={onSocialClick}
-        name="google"
-        style={{
-          width: "50%",
-          borderRadius: "16px",
-          border: "0px",
-          backgroundColor: "#F7E600",
-        }}
-      >
+      <button onClick={onSocialClick} name="google" className="login-button">
         <h2>
           <FontAwesomeIcon icon={faGoogle} /> 구글 로그인
         </h2>

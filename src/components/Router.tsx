@@ -2,14 +2,16 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AddressRouter from "../routes/address";
 import AddressDetailRouter from "../routes/addressDetail";
+import AlarmRouter from "../routes/alarm";
 import LoginRouter from "../routes/login";
 import MainRouter from "../routes/main";
 import ProfileRouter from "../routes/profile";
 import ProfileDetailRouter from "../routes/profileDetail";
+import ProfileEditRouter from "../routes/profileEdit";
 import SearchRouter from "../routes/search";
-import userObj from "./userObj";
+import { refreshUser } from "./userObj";
 
-const AppRouter = ({ userObj }: userObj) => {
+const AppRouter = ({ userObj, refreshUser }: refreshUser) => {
   return (
     <>
       <Router>
@@ -28,8 +30,20 @@ const AppRouter = ({ userObj }: userObj) => {
           />
           <Route
             path="/profile/detail"
-            element={<ProfileDetailRouter userObj={userObj} />}
+            element={
+              <ProfileDetailRouter
+                userObj={userObj}
+                refreshUser={refreshUser}
+              />
+            }
           />
+          <Route
+            path="/profile/edit"
+            element={
+              <ProfileEditRouter userObj={userObj} refreshUser={refreshUser} />
+            }
+          />
+          <Route path="/alarm" element={<AlarmRouter userObj={userObj} />} />
           <Route path="/*" element={<>error 404</>} />
         </Routes>
       </Router>

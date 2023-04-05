@@ -39,7 +39,12 @@ const MainHeader = ({ userObj }: userObj) => {
         <div style={{ display: "inline" }} onClick={onSearchClick}>
           <FontAwesomeIcon className="header-icon" icon={faSearch} size="xl" />
         </div>
-        <div style={{ display: "inline" }}>
+        <div
+          style={{ display: "inline" }}
+          onClick={(e) => {
+            navigate("/alarm");
+          }}
+        >
           <FontAwesomeIcon className="header-icon" icon={faBell} size="xl" />
         </div>
       </div>

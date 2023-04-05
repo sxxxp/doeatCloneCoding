@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import BannerSlider from "../components/BannerSlider";
 import MainFooter from "../components/MainFooter";
+import SizeBox from "../components/marginBox";
 import userObj from "../components/userObj";
 import { authService } from "../FirebaseInst";
 
@@ -33,16 +34,18 @@ const ProfileRouter = ({ userObj }: userObj) => {
   return (
     <div style={{ marginBottom: "100px" }}>
       <div>
-        <h2 style={{ textAlign: "center" }}>마이두잇</h2>
+        <h2 className="center">마이두잇</h2>
         <FontAwesomeIcon
-          className="header-icon"
           icon={faBell}
           size="xl"
-          style={{ position: "absolute", right: "10px", top: "10px" }}
+          className="profile-header-icon"
+          onClick={(e) => {
+            navigate("/alarm");
+          }}
         />
       </div>
       <div
-        style={{ marginLeft: "200px", marginTop: "50px", position: "relative" }}
+        className="profile-wrapper"
         onClick={(e) => {
           navigate("/profile/detail");
         }}
@@ -50,29 +53,18 @@ const ProfileRouter = ({ userObj }: userObj) => {
         <img
           src={userObj?.photoURL ? userObj.photoURL : ""}
           alt=""
-          style={{ width: "64px", height: "64px", borderRadius: "32px" }}
+          className="profile-image"
         />
-        <span
-          style={{
-            fontSize: "25px",
-            fontWeight: "bold",
-            display: "inline-block",
-            position: "absolute",
-            marginBottom: "30px",
-            marginLeft: "20px",
-          }}
-        >
-          {userObj?.displayName}
-        </span>
+        <span className="profile-name">{userObj?.displayName}</span>
         <FontAwesomeIcon
           icon={faChevronRight}
           size="2x"
-          style={{ position: "absolute", right: "10%", marginTop: "20px" }}
+          className="profile-icon"
         />
       </div>
-      <div style={{ margin: "30px" }}></div>
-      <BannerSlider items={["banner1.png", "banner2.png"]} />
-      <div style={{ marginLeft: "10%" }}>
+      <SizeBox size={30} />
+      <BannerSlider items={["banner1.jpg", "banner2.jpg"]} />
+      <div className="profile-menu-wrapper">
         <h2
           onClick={(e) => {
             navigate("/address");
@@ -91,7 +83,7 @@ const ProfileRouter = ({ userObj }: userObj) => {
         </h2>
       </div>
       <div className="gray-bar"></div>
-      <div style={{ marginLeft: "10%" }}>
+      <div className="profile-menu-wrapper">
         <h2>
           <FontAwesomeIcon icon={faCircleInfo} /> 약관 및 정책
         </h2>
